@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 import { useEffect } from "react"
 import { useReducer, useState } from "react"
 
@@ -19,11 +20,17 @@ import { useReducer, useState } from "react"
     }
   }
 
+  
+
 function App() {
   const[state, dispatch] = useReducer(setReservoir, reservoir);
 
   const[fishCount, setFishCount] = useState(0);
   const[isConnecting, changeConnection] = useState(true);
+
+  const stabilityScore = useMemo(()=>{
+    return (state.oxygenLevel*10)-(state.temperature-28)**2
+  },[state.oxygenLevel, state.temperature])
 
   useEffect(()=>{
     setTimeout(() => {
@@ -48,6 +55,9 @@ function App() {
     <section>
       <p>Fish Count: {fishCount}</p>
       <p>Connection: {isConnecting?"Connecting...":"Connected"}</p>
+    </section>
+    <section>
+      <h1> Stability Score : {stabilityScore}</h1>
     </section>
       
     </>
