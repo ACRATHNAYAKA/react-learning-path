@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useReducer, useState } from "react"
 
   let reservoir = {
@@ -21,6 +22,16 @@ import { useReducer, useState } from "react"
 function App() {
   const[state, dispatch] = useReducer(setReservoir, reservoir);
 
+  const[fishCount, setFishCount] = useState(0);
+  const[isConnecting, changeConnection] = useState(true);
+
+  useEffect(()=>{
+    setTimeout(() => {
+      setFishCount(150)
+      changeConnection(false)
+    },3000);
+  },[])
+
   return (
     <>
     <section>
@@ -33,6 +44,10 @@ function App() {
         <button onClick={()=> dispatch({type:"TEMP_DOWN"})}>Diccrease Temperature(-1)</button>
         <button onClick={()=> dispatch({type:"ADD_O2"})}>ADD Oxygens(+2)</button>
       </div>
+    </section>
+    <section>
+      <p>Fish Count: {fishCount}</p>
+      <p>Connection: {isConnecting?"Connecting...":"Connected"}</p>
     </section>
       
     </>
